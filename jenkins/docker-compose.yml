@@ -1,0 +1,21 @@
+version: "2"
+services:
+  jenkins:
+    image: docker.artifactory/jenkins:jenkins_latest
+    user: jenkins
+    container_name: jenkins
+    environment:
+     JENKINS_HOST_HOME: "/data/jenkins"
+    restart: always
+
+  nginx:
+    image: docker.artifactory/nginx:latest
+    container_name: nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+    restart: always
+    depends_on:
+      - jenkins
